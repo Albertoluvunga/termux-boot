@@ -1,0 +1,58 @@
+import telebot
+import random
+
+bot = telebot.TeleBot("7521655563:AAGOV7rRT7-9KnJUklBNteo0axEwMeKiYPg")
+
+def gerar_sinal_aviator():
+    voos = [round(random.uniform(1.1, 2.5), 2) for _ in range(5)]
+    media = sum(voos) / len(voos)
+    texto = "🚀🔥 SINAL AVIATOR VIP 🔥🚀\n\n"
+    texto += "📉 Últimos voos: " + " | ".join([str(x) + "x" for x in voos]) + "\n"
+    texto += "🧠 Padrão identificado: sequência de busts abaixo de 2x 😨\n"
+    texto += "📢 ENTRA FORTE após próximo bust abaixo de 1.5x!\n"
+    texto += "🎯 OBJETIVO: Sair em {:.2f}x 💰\n".format(media + 0.5)
+    texto += "⛔ Evita entrada se bater 3x seguido!\n\n"
+    texto += "📡 IA Confiança: {}%".format(random.randint(78, 92))
+    return texto
+
+def gerar_sinal_jato():
+    objetivo = round(random.uniform(2.0, 2.5), 2)
+    confianca = random.randint(75, 88)
+    texto = "🛩️ SINAL CRASH (JATO) VIP 💥\n\n"
+    texto += "📊 Análise IA: crashs abaixo de 2x dominando\n"
+    texto += "⚠️ Atenção! Entrada recomendada após 1 bust abaixo de 1.4x\n"
+    texto += f"💣 Objetivo: PUXA o saque em {objetivo}x ou menos\n"
+    texto += f"🔥 Confiança IA: {confianca}%\n"
+    texto += "🎲 Estratégia: Martingale leve possível"
+    return texto
+
+def gerar_sinal_bacbo():
+    confianca = random.randint(75, 90)
+    texto = "🎲🔮 SINAL BAC BO VIP 🔮🎲\n\n"
+    texto += "🏠 Casa venceu 3 de 4 últimas\n"
+    texto += "⚖️ Tendência de EMPATE se formando!\n"
+    texto += "📢 Entrada moderada aguardando empate nos próximos 5\n"
+    texto += f"🎯 Confiança IA: {confianca}%\n"
+    texto += "💡 Dica: Entrar com cautela até confirmar padrão"
+    return texto
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, "🤖 Bem-vindo ao Bot de Sinais VIP!\n\nComandos disponíveis:\n/aviator\n/jato\n/bacbo")
+
+@bot.message_handler(commands=['aviator'])
+def aviator(message):
+    sinal = gerar_sinal_aviator()
+    bot.reply_to(message, sinal)
+
+@bot.message_handler(commands=['jato'])
+def jato(message):
+    sinal = gerar_sinal_jato()
+    bot.reply_to(message, sinal)
+
+@bot.message_handler(commands=['bacbo'])
+def bacbo(message):
+    sinal = gerar_sinal_bacbo()
+    bot.reply_to(message, sinal)
+
+bot.polling()
